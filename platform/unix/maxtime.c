@@ -35,7 +35,7 @@
 static void ReportSignalAndBailOut(int sig)
 {
   output_plaintext_report_aborted(sig);
-  exit(1);
+  _exit(1);
 }
 
 /* specific signal handlers: */
@@ -197,7 +197,7 @@ void platform_init(void)
   if (sigaction(SIGALRM, &act, NULL))
     perror(__func__);
   act.sa_handler = &ReDrawBoard; 
-  if (sigaction(SIGHUP,  &act, NULL))
+  if (sigaction(SIGCONT,  &act, NULL))
     perror(__func__);
 #else
 #if defined(HASHRATE)
@@ -208,7 +208,7 @@ void platform_init(void)
 #endif /*HASHRATE*/
   if (signal(SIGALRM, &solvingTimeOver) == SIG_ERR)
     perror(__func__);
-  if (signal(SIGHUP,  &ReDrawBoard) == SIG_ERR)
+  if (signal(SIGCONT, &ReDrawBoard) == SIG_ERR)
     perror(__func__);
 #endif /*HAVE_SIGACTION*/
 }
