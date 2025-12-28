@@ -3,6 +3,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/protocol.h"
 #include "platform/maxtime.h"
+#include "platform/heartbeat.h"
 #include "platform/maxmem.h"
 #include "input/plaintext/memory.h"
 #include "stipulation/pipe.h"
@@ -45,6 +46,24 @@ static int parseCommandlineOptions(int argc, char *argv[])
         ; /* conversion failure -> assume no max time */
       else
         platform_set_commandline_maxtime(value);
+
+      idx++;
+      continue;
+    }
+    if (idx+1<argc && strcmp(argv[idx], "-heartbeat")==0)
+    {
+      char *end;
+      heartbeat_type value;
+
+      idx++;
+      value = (unsigned int)strtoul(argv[idx], &end, 10);
+      if (argv[idx]==end)
+      {
+        /* conversion failure -> assume default heartbeat rate */
+        value = heartbeat_default_rate;
+      }
+
+      platform_set_commandline_heartbeat(value);
 
       idx++;
       continue;

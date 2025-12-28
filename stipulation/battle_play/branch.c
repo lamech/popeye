@@ -141,6 +141,7 @@ static slice_index const slice_rank_order[] =
   STMove,
   STAttackPlayed,
   STMaxTimeGuard,
+  STHeartBeatWriter,
   STMaxSolutionsGuard,
   STMaxSolutionsCounter,
   STRestartGuard,
