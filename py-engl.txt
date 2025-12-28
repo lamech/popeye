@@ -53,8 +53,25 @@ Commandline parameters:
 	If a problem hasn't been solved after one minute, solving
 	continues with the next problem in the input file (if any).
 
+-heartbeat
+        MAINLY FOR PARALLELISERS LIKE SPINACH
+	Activation of printing of heartbeat lines on the error channel.
+	If activated, Popeye will print heartbeat lines to the error
+	channel in more or less regular time intervals.
+	If printing such a heartbeat line fails, Popeye terminates
+	immediately.
+	This parameter improves the collaboration between parallelisers
+	and Popeye:
+	- parallelisers can detect that their Popeye slaves are working
+	- (more importantly) Popeye processes can detect that their
+	  paralleliser has been terminated; this avoids long running
+	  Popeye zombie processes
+	After -heartbeat, the rate can be indicated. The default rate
+	is 50000; higher values cause less heartbeat lines to be printed
+	per time interval, and lower values more heartbeat lines.
+
 -regression
-	FOR DEVELOPERS MAINLY
+	MAINLY FOR DEVELOPERS
 	Popeye version info and solving times are suppressed from
 	output files.
 

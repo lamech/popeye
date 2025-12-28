@@ -364,6 +364,7 @@
 #include "platform/platform.h"
 #include "platform/maxmem.h"
 #include "platform/timer.h"
+#include "platform/heartbeat.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -1662,6 +1663,18 @@ void dispatch(slice_index si)
 
     case STMaxTimeGuard:
       maxtime_guard_solve(si);
+      break;
+
+    case STHeartBeatProblemInstrumenter:
+      heartbeat_problem_instrumenter_solve(si);
+      break;
+
+    case STHeartBeatSetter:
+      heartbeat_set(si);
+      break;
+
+    case STHeartBeatWriter:
+      heartbeat_writer_solve(si);
       break;
 
     case STMaxSolutionsProblemInstrumenter:

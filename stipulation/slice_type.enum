@@ -244,6 +244,9 @@
     ENUMERATOR(STMaxTimeProblemInstrumenter),                                    \
     ENUMERATOR(STMaxTimeSetter), /* start maxtime timer */              \
     ENUMERATOR(STMaxTimeGuard), /* makes sure maxtime is kept*/         \
+    ENUMERATOR(STHeartBeatSetter), /* start maxtime timer */              \
+    ENUMERATOR(STHeartBeatWriter), /* writes heartbeat to stderr */     \
+    ENUMERATOR(STHeartBeatProblemInstrumenter),                                    \
     ENUMERATOR(STMaxSolutionsProblemInstrumenter),                      \
     ENUMERATOR(STMaxSolutionsSolvingInstrumenter),                      \
     ENUMERATOR(STMaxSolutionsInitialiser), /* initialise solution counter for option maxsolutions */  \
