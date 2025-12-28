@@ -54,6 +54,25 @@ Kommandozeilenparameter:
 	geloest wird, wird mit dem naechsten Problem (sofern
 	vorhanden) weitergefahren.
 
+-heartbeat
+	HAUPTSAECHLICH FUER PARALLELISIERER WIE SPINACH
+	Aktivierung der Ausgabe von Herzschlagzeilen auf dem Fehlerkanal.
+	Wenn aktiviert, gibt Popeye in einigermassen regelmaessigen
+	Abstaenden eine Herzschlagzeile auf dem Fehlerkanal aus.
+	Wenn die Ausgabe der Herzschlagzeile fehlschlaegt, terminiert
+	Popeye sofort.
+	Dieser Parameter dient zur Verbesserung der Zusammenarbeit zwischen
+	Parallelisierern und Popeye:
+	- Parallelisierer koennen feststellen, dass ihre Popeye-Sklaven
+	  noch arbeiten
+	- (vor allem) Popeye-Prozesse koennen feststellen, dass ihr
+	  Parallelisierer terminiert wurde; dies vermeidet lange laufende
+	  Popeye-Zombies
+	Nach -heartbeat kann optional die Rate angegeben werden.
+	Vorgabewert ist 50000; ein hoeherer Wert produziert weniger
+	Herzschlagzeilen pro Zeiteinheit, ein tieferer Wert mehr
+	Herzschlagzeilen.
+
 -regression
 	HAUPTSAECHLICH FUER ENTWICKLER
 	Unterdrueckt Popeye-Versionsinformation und Loesungszeiten in
