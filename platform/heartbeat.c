@@ -71,10 +71,12 @@ void heartbeat_writer_solve(slice_index si)
   static unsigned int count = 0;
   ++count;
   if (count%heartBeatCommandLine==0)
+  {
     if (fprintf(stderr,"heartbeat:%5d\n",count/heartBeatCommandLine)<0)
       exit(1);
     else
       ++count;
+  }
 
   pipe_solve_delegate(si);
 
