@@ -57,19 +57,24 @@ static int parseCommandlineOptions(int argc, char *argv[])
       idx++;
       continue;
     }
-    if (idx+1<argc && strcmp(argv[idx], "-heartbeat")==0)
+    if (strcmp(argv[idx], "-heartbeat")==0)
     {
       char *end;
       heartbeat_type value;
 
-      value = (unsigned int)strtoul(argv[idx+1], &end, 10);
-      if (argv[idx+1]==end)
+      if (idx+1<argc)
       {
-        /* conversion failure -> assume default heartbeat rate */
-        value = heartbeat_default_rate;
+        value = (unsigned int)strtoul(argv[idx+1], &end, 10);
+        if (argv[idx+1]==end)
+        {
+          /* conversion failure -> assume default heartbeat rate */
+          value = heartbeat_default_rate;
+        }
+        else
+          idx++;
       }
       else
-        idx++;
+        value = heartbeat_default_rate;
 
       platform_set_commandline_heartbeat(value);
 
