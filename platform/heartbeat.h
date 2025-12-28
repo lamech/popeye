@@ -9,7 +9,7 @@ typedef unsigned int heartbeat_type;
 enum
 {
   no_rate_set = 0ul,
-  heartbeat_default_rate = 1000ul
+  heartbeat_default_rate = 50000ul
 };
 
 /* Inform the heartbeat module about the value of the -heartbeat command
@@ -17,8 +17,6 @@ enum
  * @param commandlineValue value of the -heartbeat command line parameter
  */
 void platform_set_commandline_heartbeat(heartbeat_type commandlineValue);
-
-boolean platform_is_heartbeat_set(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -59,6 +57,6 @@ void heartbeat_problem_instrumenter_solve(slice_index si);
  * @param si identifies the slice where to start instrumenting
  * @param heartbeat
  */
-void heartbeat_instrument_solving(slice_index si, heartbeat_type heartbeat);
+void heartbeat_instrument_solving(slice_index si);
 
 #endif

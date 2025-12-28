@@ -17,8 +17,15 @@ static int parseCommandlineOptions(int argc, char *argv[])
 {
   int idx = 1;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   while (idx<argc)
   {
+    TraceValue("%d",idx);
+    TraceValue("%s",argv[idx]);
+    TraceEOL();
+
 #if defined(FXF)
     if (idx+1<argc && strcmp(argv[idx], "-maxpos")==0)
     {
@@ -55,13 +62,14 @@ static int parseCommandlineOptions(int argc, char *argv[])
       char *end;
       heartbeat_type value;
 
-      idx++;
-      value = (unsigned int)strtoul(argv[idx], &end, 10);
-      if (argv[idx]==end)
+      value = (unsigned int)strtoul(argv[idx+1], &end, 10);
+      if (argv[idx+1]==end)
       {
         /* conversion failure -> assume default heartbeat rate */
         value = heartbeat_default_rate;
       }
+      else
+        idx++;
 
       platform_set_commandline_heartbeat(value);
 
@@ -118,11 +126,17 @@ static int parseCommandlineOptions(int argc, char *argv[])
       break;
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%d",idx);
+  TraceFunctionResultEnd();
   return idx;
 }
 
 void command_line_options_parser_solve(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   int const argc = SLICE_U(si).command_line_options_parser.argc;
   char **argv = SLICE_U(si).command_line_options_parser.argv;
   int const idx_end_of_options = parseCommandlineOptions(argc,argv);
@@ -132,6 +146,9 @@ void command_line_options_parser_solve(slice_index si)
   slice_insertion_insert(si,&opener,1);
 
   pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 slice_index alloc_command_line_options_parser(int argc, char **argv)

@@ -20,12 +20,14 @@ static heartbeat_type heartBeatCommandLine = no_rate_set;
  */
 void platform_set_commandline_heartbeat(heartbeat_type commandlineValue)
 {
-  heartBeatCommandLine = commandlineValue;
-}
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",commandlineValue);
+  TraceFunctionParamListEnd();
 
-boolean platform_is_heartbeat_set(void)
-{
-  return heartBeatCommandLine!=no_rate_set;
+  heartBeatCommandLine = commandlineValue;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Allocate a STHeartBeatWriter slice.
@@ -68,9 +70,11 @@ void heartbeat_writer_solve(slice_index si)
 
   static unsigned int count = 0;
   ++count;
-  if (count%heartBeatCommandLine==0
-      && fprintf(stderr,"heartbeat:%5d\n",count++)<0)
-    exit(1);
+  if (count%heartBeatCommandLine==0)
+    if (fprintf(stderr,"heartbeat:%5d\n",count/heartBeatCommandLine)<0)
+      exit(1);
+    else
+      ++count;
 
   pipe_solve_delegate(si);
 
@@ -194,15 +198,14 @@ void heartbeat_problem_instrumenter_solve(slice_index si)
 
 /* Instrument the solving machinery with option maxsolutions
  * @param si identifies the slice where to start instrumenting
- * @param heartbeat
  */
-void heartbeat_instrument_solving(slice_index si, heartbeat_type heartbeat)
+void heartbeat_instrument_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",heartbeat);
   TraceFunctionParamListEnd();
 
+  if (heartBeatCommandLine!=no_rate_set)
   {
     slice_index const prototype = alloc_pipe(STHeartBeatProblemInstrumenter);
     slice_insertion_insert(si,&prototype,1);
